@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "karys-86c3d": {
+      "hosting": {
+        "karys": [
+          "karys-86c3d"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "karys-86c3d"
+  }
+}
