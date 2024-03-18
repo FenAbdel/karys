@@ -1,25 +1,27 @@
 .registration-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-image: url('/assets/background.jpeg');
-    background-size: cover;
-    background-position: center;
-  }
-  
-  .registration-card {
-    max-width: 400px;
-    width: 100%;
-    margin: 20px;
-  }
-  
-  .full-width-input {
-    width: 100%;
-  }
-  
-  .registration-button {
-    margin-top: 20px;
-    width: 100%;
-  }
-  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-image: url('/assets/background.jpeg');
+  background-size: cover;
+  background-position: center;
+}
+
+.registration-card {
+  max-width: 400px;
+  width: 100%;
+  margin: 20px;
+  background-color: rgba(255, 255, 255, 0.95); /* Blanc avec une légère transparence */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre portée légère pour améliorer la lisibilité */
+  border-radius: 8px; /* Ajoute des bords arrondis pour un look plus doux */
+}
+
+.full-width-input {
+  width: 100%;
+}
+
+.registration-button {
+  margin-top: 20px;
+  width: 100%;
+}
