@@ -1,0 +1,25 @@
+.registration-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url('/assets/background.jpeg');
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .registration-card {
+    max-width: 400px;
+    width: 100%;
+    margin: 20px;
+  }
+  
+  .full-width-input {
+    width: 100%;
+  }
+  
+  .registration-button {
+    margin-top: 20px;
+    width: 100%;
+  }
+  
