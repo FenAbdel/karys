@@ -7,11 +7,13 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { HistoriqueComponent } from './components/historique/historique.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent
+    NavbarComponent,
+    HistoriqueComponent
   ],
   imports: [
     BrowserModule,
