@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import{ Auth, createUserWithEmailAndPassword, updateProfile } from '@angular/fire/auth'
+import{ Auth, createUserWithEmailAndPassword, updateProfile, sendEmailVerification } from '@angular/fire/auth'
 import { switchMap, from } from 'rxjs';
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,14 @@ export class AuthentificationService {
   signUp(name: string, email: string, password: string){
     return from(
       createUserWithEmailAndPassword(this.auth, email, password)
-      ).pipe(switchMap(({user}) => updateProfile(user, { displayName:name})))
+      ).pipe(
+        switchMap(({user}) => {
+          return updateProfile(user, { displayName:name}).then(() =>{
+            return sendEmailVerification(user);
+          });
+        })
+      );
+      
 
   }
 }
