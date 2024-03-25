@@ -1,0 +1,25 @@
+main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+
+}
+form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+form button, form mat-form-field{
+    width: -webkit-fill-available;
+}
+
+form button{
+    margin-top: 5px;
+}
+
+form mat-form-field{
+    margin-bottom: 10px;
+}
