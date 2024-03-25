@@ -1,21 +1,23 @@
-import { Injectable } from '@angular/core';
-import { Observable, from, of } from 'rxjs';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Injectable, inject } from '@angular/core';
+import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
+import { Observable, catchError, from, of, throwError } from 'rxjs';
+// import { AngularFireAuth } from '@angular/fire/compat/auth';
+
 @Injectable({
   providedIn: 'root'
 })
+
 export class AuthentificationService {
 
-  constructor(
-    private auth: AngularFireAuth
-  ) { }
+  private auth: Auth = inject(Auth);
+  constructor()
+   { }
 
-  SignIn(params: SignIn):Observable<any> {
-    return from(this.auth.signInWithEmailAndPassword(
-      params.email,
-      params.password
-    ));
+  signIn(params: SignIn) {
+    return signInWithEmailAndPassword(this.auth, params.email, params.password)
+
   }
+
 }
 
 type SignIn = { email: string, password: string }

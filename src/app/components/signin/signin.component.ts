@@ -1,20 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthentificationService } from '../services/authentification.service';
+import { from } from 'rxjs';
+
+
 @Component({
   selector: 'app-signin',
   templateUrl: './signin.component.html',
   styleUrl: './signin.component.css'
 })
 export class SigninComponent implements OnInit{
-  
+    
   form!:FormGroup;
   isLoggingIn = false;
 
   constructor(
-    private AuthentificationService: AuthentificationService,
+    private authentificationService: AuthentificationService,
     private formBuilder: FormBuilder,
     private router: Router
   ) { }
@@ -28,15 +30,16 @@ export class SigninComponent implements OnInit{
 
   login(){
     this.isLoggingIn = true;
-    this.AuthentificationService.SignIn({
-        email: this.form.value.email,
-        password: this.form.value.password
-      }).subscribe(()=> {
-        this.router.navigate(['home']);
-      },(error: any) => {
+    from(this.authentificationService.signIn({
+      email: this.form.value.email,
+      password: this.form.value.password
+    })).subscribe(() => {
+      this.router.navigate(['/home']);
+    }, (error: any) => {
+      this.isLoggingIn = false;
+    });
 
-        this.isLoggingIn = false;
-      });
+  
   }
 
 }

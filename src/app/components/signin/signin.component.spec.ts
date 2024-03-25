@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Injectable, inject } from '@angular/core';
 
 import { SigninComponent } from './signin.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -14,9 +15,9 @@ describe('SigninComponent', () => {
   let fixture: ComponentFixture<SigninComponent>;
   let page: any;
   let location : Location;
-  let AuthentificationService: AuthentificationServiceMock
+  let authentificationService: AuthentificationServiceMock
   beforeEach(async () => {
-    AuthentificationService = new AuthentificationServiceMock;
+    authentificationService = new AuthentificationServiceMock();
     await TestBed.configureTestingModule({
       declarations: [SigninComponent],
       imports: [
@@ -26,7 +27,7 @@ describe('SigninComponent', () => {
       ])
       ]
     })
-    .overrideProvider(AuthentificationService,{useValue : AuthentificationService})
+    .overrideProvider(AuthentificationService,{useValue : authentificationService})
     .compileComponents();
     
     fixture = TestBed.createComponent(SigninComponent);
@@ -38,59 +39,51 @@ describe('SigninComponent', () => {
     fixture.detectChanges();
   });
 
-  describe('given form', () => {
-    it('when email is empty, then recover password button should be disabled', () => {
-      SetEmail('');
-
-      expect(recoverPasswordButton().disabled).toBeTruthy();
-    });
-
-    it('when email is Invalid, then recover password button should be disabled', () => {
-      SetEmail('invalidEmail');
-
-  
-      expect(recoverPasswordButton().disabled).toBeTruthy();
-    });
-  
-    it('when email is valid, then recover password button should be enabled', () => {
-      SetEmail('valid@email.com');
-
-      expect(recoverPasswordButton().disabled).toBeFalsy();
-    });
-
-    it('when email is empty, then login button should be disabled', () => {
-      SetEmail('');
-      SetPassword('anyPassword');
-
-      expect(loginButton().disabled).toBeTruthy();
-    });
-
-    it('when email is invalid, then login button should be disabled', () => {
-      SetEmail('invalidEmail');
-      SetPassword('anyPassword');
-
-      expect(loginButton().disabled).toBeTruthy();
-    });
-    it('when password is empty, then login button should be disabled', () => {
-      SetEmail('valid@email.com');
-      SetPassword('');
-
-  
-  
-      expect(loginButton().disabled).toBeTruthy();
-    });
-    it('when password is not empty, then login button should be disabled', () => {
-      SetEmail('valid@email.com');
-      SetPassword('anyPassword');
-     
-  
-  
-      expect(loginButton().disabled).toBeFalsy();
-    });
-
-  });
+ 
 
   describe('login flow',() => {
+    describe('given form', () => {
+      it('when email is empty, then recover password button should be disabled', () => {
+        SetEmail('');
+        expect(recoverPasswordButton().disabled).toBeTruthy();
+  
+      });
+  
+      it('when email is Invalid, then recover password button should be disabled', () => {
+        SetEmail('invalidEmail');  
+        expect(recoverPasswordButton().disabled).toBeTruthy();
+      });
+    
+      it('when email is valid, then recover password button should be enabled', () => {
+        SetEmail('valid@email.com');
+        expect(recoverPasswordButton().disabled).toBeFalsy();
+      });
+  
+      it('when email is empty, then login button should be disabled', () => {
+        SetEmail('');
+        SetPassword('anyPassword');
+        expect(loginButton().disabled).toBeTruthy();
+      });
+  
+      it('when email is invalid, then login button should be disabled', () => {
+        SetEmail('invalidEmail');
+        SetPassword('anyPassword');
+        expect(loginButton().disabled).toBeTruthy();
+      });
+      it('when password is empty, then login button should be disabled', () => {
+        SetEmail('valid@email.com');
+        SetPassword('');  
+        expect(loginButton().disabled).toBeTruthy();
+      });
+  
+      it('when password is not empty, then login button should be disabled', () => {
+        SetEmail('valid@email.com');
+        SetPassword('anyPassword');
+        expect(loginButton().disabled).toBeFalsy();
+      });
+  
+    });
+
     describe('given user clicks on login button', () => {
 
       beforeEach(() => {
@@ -103,45 +96,44 @@ describe('SigninComponent', () => {
         expect( loginLoader()).not.toBeNull();
       });
       it('the hide login button', () => {
-        expect(loginButton).toBeNull();
+        expect(loginButton()).toBeNull();
       })
 
       describe('when login is successful', () => {
 
         beforeEach(()=>{
-          AuthentificationService._signInResponse.next({id:"anyUserId"})
+          authentificationService._signInResponse.next({id:"anyUserId"});
         })
         it('should navigate to home page', done => {
           setTimeout(() => {
             expect(location.path()).toEqual('/home');
-            done()
+            done();
           }, 100)
           
         }); 
 
-       
       });
+
       describe('when login is fails', () => {
         beforeEach(()=>{
-          AuthentificationService._signInResponse.error({message:"anyError"});
+          authentificationService._signInResponse.error({message:"anyError"});
           fixture.detectChanges();
         })
         it('should not navigate to home page', done => {
           setTimeout(() => {
             expect(location.path()).not.toEqual('/home');
-            done()
+            done();
           }, 100)
-          
         }); 
 
-        it('should hide login loader', done => {
-          expect(loginLoader).toBeNull();
+        it('should hide login loader', () => {
+          expect(loginLoader()).toBeNull();
           
         }); 
       })
     });
    
-  })
+  });
 
   function SetEmail(email: string) {
     component.form.get('email')?.setValue(email);
