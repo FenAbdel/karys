@@ -15,9 +15,15 @@
 
           </mat-form-field>
           <button mat-button  [disabled]="!form.get('email')!.valid" 
+            (click)="recoverPassword()"  *ngIf="!isRecoveringPassword"
             test-id="recover-password-button" >
-            Oublie Mot de passe
+            Mot de passe oublié
             </button>
+            <button mat-button  *ngIf="isRecoveringPassword"
+            test-id="recover-password-loader" >
+            <mat-spinner color="primary" class="button-loader" diameter="20"></mat-spinner>
+            </button>
+            
           <button mat-raised-button color="primary" [disabled]="!form.valid" (click)="login()" test-id="login-button"
             *ngIf="!isLoggingIn">
             Sign In

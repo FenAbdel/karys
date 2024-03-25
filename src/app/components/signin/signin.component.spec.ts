@@ -146,6 +146,43 @@ describe('SigninComponent', () => {
    
   });
 
+  describe('recover password flow', () => {
+    describe('given user clicks on recover password button', () => {
+      beforeEach(() => {
+        SetEmail('Valid@email.com');
+        recoverPasswordButton().click();  
+  
+        fixture.detectChanges();  
+      })
+
+
+      it("show recover password loader", () => {
+        expect(recoverPasswordLoader()).not.toBeNull();
+      });
+     
+      
+      it("hide recover password button", () => {
+        expect(recoverPasswordButton()).toBeNull();
+      });
+
+      describe('when recover password is successful', () => {
+        beforeEach(()=>{
+        authentificationService._recoverPasswordResponse.next({});
+        })
+
+        it("hide recover password loader", () => {
+          expect(recoverPasswordLoader()).toBeNull();
+        });
+       
+        
+        it("show recover password button", () => {
+          expect(recoverPasswordButton()).not.toBeNull();
+        });
+  
+      })
+     
+    })
+  });
   function SetEmail(email: string) {
     component.form.get('email')?.setValue(email);
     fixture.detectChanges();
@@ -167,10 +204,19 @@ describe('SigninComponent', () => {
   function loginLoader() {
     return page.querySelector('[test-id="login-loader"]')
   }
+
+  function recoverPasswordLoader() {
+    return page.querySelector('[test-id="recover-password-loader"]')
+  }
 });
 
 class AuthentificationServiceMock {
+  _recoverPasswordResponse = new Subject();
   _signInResponse = new Subject();
+  recoverPassword() {
+    return this._recoverPasswordResponse.asObservable();
+  }
+
   signIn() {
     return this._signInResponse.asObservable();
   }

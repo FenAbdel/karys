@@ -15,7 +15,7 @@ export class SigninComponent implements OnInit{
     
   form!:FormGroup;
   isLoggingIn = false;
-
+  isRecoveringPassword = false;
   constructor(
     private authentificationService: AuthentificationService,
     private formBuilder: FormBuilder,
@@ -39,10 +39,32 @@ export class SigninComponent implements OnInit{
       this.router.navigate(['/home']);
     }, (error: any) => {
       this.isLoggingIn = false;
-      this.snackBar.open(error.message, 'Ok',{duration: 5000})
+      this.snackBar.open('Username ou Mot de passe Invalid', 'Ok',{
+        duration: 5000
+      })
     });
 
   
   }
+
+  recoverPassword(){
+    this.isRecoveringPassword = true;
+    from(this.authentificationService.recoverPassword(this.form.value.email)).subscribe(() => {
+      this.isRecoveringPassword = false;
+      this.snackBar.open('Un email a été envoyé', 'Ok',{
+        duration: 5000
+      })
+    }, (error: any) => {
+      this.isRecoveringPassword = false;
+      this.snackBar.open(error.message, 'Ok',{
+        duration: 5000
+      })
+
+    }
+    
+    
+    );
+  }
+
 
 }
