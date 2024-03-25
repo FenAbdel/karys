@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthentificationService } from '../services/authentification.service';
 import { from } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -18,7 +19,8 @@ export class SigninComponent implements OnInit{
   constructor(
     private authentificationService: AuthentificationService,
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -37,6 +39,7 @@ export class SigninComponent implements OnInit{
       this.router.navigate(['/home']);
     }, (error: any) => {
       this.isLoggingIn = false;
+      this.snackBar.open(error.message, 'Ok',{duration: 5000})
     });
 
   

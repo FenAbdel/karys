@@ -9,15 +9,21 @@ import { Location } from '@angular/common';
 import { AuthentificationService } from '../services/authentification.service';
 
 import { Subject } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 describe('SigninComponent', () => {
   let component: SigninComponent;
   let fixture: ComponentFixture<SigninComponent>;
   let page: any;
   let location : Location;
-  let authentificationService: AuthentificationServiceMock
+  let authentificationService: AuthentificationServiceMock;
+  let snackBar: SnackBarMock
+
+
   beforeEach(async () => {
     authentificationService = new AuthentificationServiceMock();
+    snackBar = new SnackBarMock();
+
     await TestBed.configureTestingModule({
       declarations: [SigninComponent],
       imports: [
@@ -28,6 +34,7 @@ describe('SigninComponent', () => {
       ]
     })
     .overrideProvider(AuthentificationService,{useValue : authentificationService})
+    .overrideProvider(MatSnackBar,{useValue : snackBar})
     .compileComponents();
     
     fixture = TestBed.createComponent(SigninComponent);
@@ -130,6 +137,10 @@ describe('SigninComponent', () => {
           expect(loginLoader()).toBeNull();
           
         }); 
+        it('should show error message', () => {
+          expect(snackBar._isOpened).toBeTruthy();
+          
+        });
       })
     });
    
@@ -163,4 +174,12 @@ class AuthentificationServiceMock {
   signIn() {
     return this._signInResponse.asObservable();
   }
+}
+
+class SnackBarMock {
+  _isOpened = false;
+  open() {
+    this._isOpened = true;  
+  }
+
 }
