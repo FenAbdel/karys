@@ -1,7 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
-const routes: Routes = [];
+import { NavbarComponent } from './components/navbar/navbar.component';
+const routes: Routes = [
+  { path: '' , redirectTo: 'home', pathMatch:'full'},
+  { path: 'navbar' , component: NavbarComponent}
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
